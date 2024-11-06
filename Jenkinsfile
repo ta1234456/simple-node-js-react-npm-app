@@ -7,17 +7,16 @@ pipeline {
                 bat 'npm install'
             }
         }
-        // stage('Test') {
-        //     steps {
-        //         sh './jenkins/scripts/test.sh'
-        //     }
-        // }
-        // stage('Deliver') {
-        //     steps {
-        //         sh './jenkins/scripts/deliver.sh'
-        //         input message: 'Finished using the web site? (Click "Proceed" to continue)'
-        //         sh './jenkins/scripts/kill.sh'
-        //     }
-        // }
+        stage('Build') {
+            steps {
+                echo 'Build'
+                bat 'docker build -t todo-app .'
+            }
+        }
+        stage('Deploy'){
+            steps{
+                echo 'Deploy the TODO application on Docker'
+                bat 'docker run -p 8000:8000 -d todo-app'
+            }
     }
 }
